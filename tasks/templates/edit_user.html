@@ -1,0 +1,173 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit User</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+</head>
+<body>
+    <div class="container-fluid">
+         <!-- Sidebar -->
+         <div class="sidebar bg-light" style="width: 250px; position: fixed; height: 100vh;">
+            <!-- User Info with Edit Icon -->
+            <div class="text-center my-3">
+                <img src="{% static 'images/user_icon.png' %}" alt="User Icon" class="img-fluid rounded-circle" width="80">
+                <h6 class="mt-2">{{ request.user.username }}
+                    <a href="{% url 'edit_profile' %}" class="ms-2">
+                        <i class="bi bi-pencil-square"></i>
+                    </a>
+                </h6>
+                <p class="text-muted">
+                    {% if request.user.is_staff %}
+                        Admin
+                    {% elif request.user.userprofile.user_type == 'team_coordinator' %}
+                        Team Coordinator
+                    {% else %}
+                        General User
+                    {% endif %}
+                </p>
+            </div>
+        
+            <!-- Sidebar Menu -->
+            <ul class="nav flex-column">
+                <!-- Dashboard Link -->
+                <li class="nav-item">
+                    <a href="{% url 'admin_dashboard' %}" class="nav-link {% if request.resolver_match.url_name == 'admin_dashboard' %}fw-bold text-dark{% endif %}">
+                        Dashboard
+                    </a>
+                </li>
+        
+                <!-- Tasks Menu with Expandable Links -->
+                <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'task_list' or request.resolver_match.url_name == 'add_task' %}fw-bold text-dark{% endif %}" data-bs-toggle="collapse" href="#tasksMenu" role="button" aria-expanded="false" aria-controls="tasksMenu">
+                        Tasks
+                    </a>
+                    <div class="collapse {% if request.resolver_match.url_name == 'task_list' or request.resolver_match.url_name == 'add_task' %}show{% endif %}" id="tasksMenu">
+                        <ul class="nav flex-column ms-3">
+                            <li class="nav-item">
+                                <a href="{% url 'task_list' %}" class="nav-link {% if request.resolver_match.url_name == 'task_list' %}fw-bold text-dark{% endif %}">
+                                    All Tasks
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{% url 'add_task' %}" class="nav-link {% if request.resolver_match.url_name == 'add_task' %}fw-bold text-dark{% endif %}">
+                                    Add Task
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+        
+                <!-- User Management Menu (Admin Only) -->
+                {% if request.user.is_staff %}
+                <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'admin_user_management' or request.resolver_match.url_name == 'create_user' %}fw-bold text-dark{% endif %}" data-bs-toggle="collapse" href="#userMenu" role="button" aria-expanded="false" aria-controls="userMenu">
+                        User Management
+                    </a>
+                    <div class="collapse {% if request.resolver_match.url_name == 'admin_user_management' or request.resolver_match.url_name == 'create_user' %}show{% endif %}" id="userMenu">
+                        <ul class="nav flex-column ms-3">
+                            <li class="nav-item">
+                                <a href="{% url 'admin_user_management' %}" class="nav-link {% if request.resolver_match.url_name == 'admin_user_management' %}fw-bold text-dark{% endif %}">
+                                    User List
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{% url 'create_user' %}" class="nav-link {% if request.resolver_match.url_name == 'create_user' %}fw-bold text-dark{% endif %}">
+                                    Create New User
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                {% endif %}
+        
+                <!-- Logout -->
+                <li class="nav-item">
+                    <a href="{% url 'logout' %}" class="nav-link text-danger">
+                        Logout
+                    </a>
+                </li>
+            </ul>
+        </div>
+            <!-- Main Content -->
+            <div class="col-md-10">
+                <h2 class="text-center my-4">Edit User: {{ profile.full_name }}</h2>
+
+                <form method="POST" class="row g-3" autocomplete="off">
+                    {% csrf_token %}
+
+                    <!-- Username Field -->
+                    <div class="col-md-6">
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" name="username" class="form-control" id="username" value="{{ form.username.value }}" required>
+                    </div>
+
+                    <!-- Full Name Field -->
+                    <div class="col-md-6">
+                        <label for="full_name" class="form-label">Full Name</label>
+                        <input type="text" name="full_name" class="form-control" id="full_name" value="{{ form.full_name.value }}" required>
+                    </div>
+
+                    <!-- Nid Field -->
+                    <div class="col-md-6">
+                        <label for="nid" class="form-label">National ID (NID)</label>
+                        <input type="text" name="nid" class="form-control" id="nid" value="{{ form.nid.value }}">
+                    </div>
+
+                    <!-- Phone No Field -->
+                    <div class="col-md-6">
+                        <label for="phone_no" class="form-label">Phone Number</label>
+                        <input type="text" name="phone_no" class="form-control" id="phone_no" value="{{ form.phone_no.value }}">
+                    </div>
+
+                    <!-- Email Field -->
+                    <div class="col-md-6">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" name="email" class="form-control" id="email" value="{{ form.email.value }}" required>
+                    </div>
+
+                    <!-- Blood Group Field -->
+                    <div class="col-md-6">
+                        <label for="blood_group" class="form-label">Blood Group</label>
+                        <select name="blood_group" class="form-select" id="blood_group">
+                            {% for choice in form.blood_group.field.choices %}
+                                <option value="{{ choice.0 }}" {% if form.blood_group.value == choice.0 %}selected{% endif %}>
+                                    {{ choice.1 }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <!-- Date of Birth Field -->
+                    <div class="col-md-6">
+                        <label for="date_of_birth" class="form-label">Date of Birth</label>
+                        <input type="date" name="date_of_birth" class="form-control" id="date_of_birth" value="{{ form.date_of_birth.value }}">
+                    </div>
+
+                    <!-- User Type Field -->
+                    <div class="col-md-6">
+                        <label for="user_type" class="form-label">User Type</label>
+                        <select name="user_type" class="form-select" id="user_type">
+                            {% for choice in form.user_type.field.choices %}
+                                <option value="{{ choice.0 }}" {% if form.user_type.value == choice.0 %}selected{% endif %}>
+                                    {{ choice.1 }}
+                                </option>
+                            {% endfor %}
+                        </select>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="col-12">
+                        <button type="submit" class="btn btn-primary w-100">Update User</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

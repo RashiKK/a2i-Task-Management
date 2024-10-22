@@ -1,0 +1,77 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Attendance List</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+</head>
+<body>
+    <div class="d-flex">
+        {% include 'sidebar.html' %}
+
+        <div class="container-fluid" style="margin-left: 250px;">
+            <div class="row">
+                <div class="col-md-12 d-flex justify-content-between align-items-center py-3">
+                    <img src="{% static 'images/a2i_logo.png' %}" alt="A2I Logo" class="img-fluid" width="150">
+                    <div>
+                        <span class="text-muted">Date: </span>
+                        <span id="current-date"></span>
+                    </div>
+                </div>
+
+                <!-- Filter Attendance by Date -->
+                <div class="col-md-12 mb-4">
+                    <h3>Filter Attendance by Date</h3>
+                    <form method="GET" action="{% url 'attendance_list' %}" class="row g-3">
+                        <div class="col-md-4">
+                            <label for="attendance_date" class="form-label">Select Date</label>
+                            <input type="date" name="attendance_date" class="form-control" value="{{ attendance_date }}" required>
+                        </div>
+                        <div class="col-md-4 d-flex align-items-end">
+                            <button type="submit" class="btn btn-primary">Filter by Date</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Attendance Records Table -->
+                <div class="col-md-12">
+                    <h3>Attendance Records for {{ attendance_date|default_if_none:"Today" }}</h3>
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>User</th>
+                                <th>Date</th>
+                                <th>Time In</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for record in attendance_list %}
+                            <tr>
+                                <td>{{ record.user.username }}</td>
+                                <td>{{ record.date }}</td>
+                                <td>{{ record.time_in|default:"-" }}</td>
+                                <td>{{ record.is_present|yesno:"Present,Absent" }}</td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="4" class="text-center">No attendance records found for this date.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        document.getElementById('current-date').textContent = new Date().toLocaleDateString();
+    </script>
+</body>
+</html>

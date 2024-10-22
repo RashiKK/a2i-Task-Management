@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Support Category List</title>
+</head>
+<body>
+    <h1>Support Category List</h1>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Add Support Category</button>
+    </form>
+    
+    <ul>
+        {% for category in support_categories %}
+            <li>{{ category.name }} - 
+                <a href="{% url 'edit_support_category' category.id %}">Edit</a> - 
+                <a href="{% url 'delete_support_category' category.id %}">Delete</a>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

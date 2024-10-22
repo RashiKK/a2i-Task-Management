@@ -1,0 +1,233 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Task</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-icons/1.8.3/font/bootstrap-icons.min.css" rel="stylesheet">
+
+</head>
+<body>
+    <div class="d-flex">
+        <!-- Sidebar -->
+        <div class="sidebar bg-light" style="width: 250px; position: fixed; height: 100vh;">
+            <!-- User Info with Edit Icon -->
+            <div class="text-center my-3">
+                <img src="{% static 'images/user_icon.png' %}" alt="User Icon" class="img-fluid rounded-circle" width="80">
+                <h6 class="mt-2">{{ request.user.username }}
+                    <a href="{% url 'edit_profile' %}" class="ms-2">
+                        <i class="bi bi-pencil-square"></i>
+                    </a>
+                </h6>
+                <p class="text-muted">
+                    {% if request.user.is_staff %}
+                        Admin
+                    {% elif request.user.userprofile.user_type == 'team_coordinator' %}
+                        Team Coordinator
+                    {% else %}
+                        General User
+                    {% endif %}
+                </p>
+            </div>
+
+            <!-- Sidebar Menu -->
+            <ul class="nav flex-column">
+                <!-- Dashboard Link -->
+                <li class="nav-item">
+                    <a href="{% url 'admin_dashboard' %}" class="nav-link {% if request.resolver_match.url_name == 'admin_dashboard' %}fw-bold text-dark{% endif %}">
+                        Dashboard
+                    </a>
+                </li>
+
+                <!-- Tasks Menu -->
+                <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'task_list' or request.resolver_match.url_name == 'add_task' %}fw-bold text-dark{% endif %}" data-bs-toggle="collapse" href="#tasksMenu" role="button" aria-expanded="false" aria-controls="tasksMenu">
+                        Tasks
+                    </a>
+                    <div class="collapse {% if request.resolver_match.url_name == 'task_list' or request.resolver_match.url_name == 'add_task' %}show{% endif %}" id="tasksMenu">
+                        <ul class="nav flex-column ms-3">
+                            <li class="nav-item">
+                                <a href="{% url 'task_list' %}" class="nav-link {% if request.resolver_match.url_name == 'task_list' %}fw-bold text-dark{% endif %}">
+                                    All Tasks
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{% url 'add_task' %}" class="nav-link {% if request.resolver_match.url_name == 'add_task' %}fw-bold text-dark{% endif %}">
+                                    Add Task
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+
+                <!-- User Management (Admin Only) -->
+                {% if request.user.is_staff %}
+                <li class="nav-item">
+                    <a class="nav-link {% if request.resolver_match.url_name == 'admin_user_management' or request.resolver_match.url_name == 'create_user' %}fw-bold text-dark{% endif %}" data-bs-toggle="collapse" href="#userMenu" role="button" aria-expanded="false" aria-controls="userMenu">
+                        User Management
+                    </a>
+                    <div class="collapse {% if request.resolver_match.url_name == 'admin_user_management' or request.resolver_match.url_name == 'create_user' %}show{% endif %}" id="userMenu">
+                        <ul class="nav flex-column ms-3">
+                            <li class="nav-item">
+                                <a href="{% url 'admin_user_management' %}" class="nav-link {% if request.resolver_match.url_name == 'admin_user_management' %}fw-bold text-dark{% endif %}">
+                                    User List
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a href="{% url 'create_user' %}" class="nav-link {% if request.resolver_match.url_name == 'create_user' %}fw-bold text-dark{% endif %}">
+                                    Create New User
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </li>
+                {% endif %}
+
+                <!-- Logout -->
+                <li class="nav-item">
+                    <a href="{% url 'logout' %}" class="nav-link text-danger">
+                        Logout
+                    </a>
+                </li>
+            </ul>
+        </div>
+
+        <!-- Add Task Content -->
+        <div class="container-fluid" style="margin-left: 250px;">
+            <div class="row">
+                <!-- Header with Logo and Date -->
+                <div class="col-md-12 d-flex justify-content-between align-items-center py-3">
+                    <img src="{% static 'images/a2i_logo.png' %}" alt="A2I Logo" class="img-fluid" width="150">
+                    <div>
+                        <span class="text-muted">Date: </span>
+                        <span id="current-date"></span>
+                    </div>
+                </div>
+
+                <!-- Add Task Form -->
+                <div class="col-md-12">
+                    <h3 class="text-center">Add Task</h3>
+                    <form method="POST" action="{% url 'add_task' %}" class="row g-3">
+                        {% csrf_token %}
+                        
+                        <!-- Source Field -->
+                        <div class="col-md-6">
+                            <label for="source" class="form-label">Source</label>
+                            <select id="source" name="source" class="form-control">
+                                {% for key, value in form.source.field.choices %}
+                                    <option value="{{ key }}" {% if form.source.value == key %}selected{% endif %}>{{ value }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <!-- Incident Field -->
+                        <div class="col-md-6">
+                            <label for="incident" class="form-label">Incident</label>
+                            <select id="incident" name="incident" class="form-control">
+                                {% for key, value in form.incident.field.choices %}
+                                    <option value="{{ key }}" {% if form.incident.value == key %}selected{% endif %}>{{ value }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <!-- Support Category Field -->
+                        <div class="col-md-6">
+                            <label for="support_category" class="form-label">Support Category</label>
+                            <select id="support_category" name="support_category" class="form-control">
+                                {% for key, value in form.support_category.field.choices %}
+                                    <option value="{{ key }}" {% if form.support_category.value == key %}selected{% endif %}>{{ value }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <!-- Office Name Field -->
+                        <div class="col-md-6">
+                            <label for="office_name" class="form-label">Office Name</label>
+                            <input id="office_name" name="office_name" type="text" class="form-control" value="{{ form.office_name.value }}">
+                        </div>
+
+                        <!-- Task Date Field with Default Today -->
+                        <div class="col-md-6">
+                            <label for="task_date" class="form-label">Task Date</label>
+                            <input id="task_date" name="task_date" type="date" class="form-control" value="{{ form.task_date.value|default_if_none:today_date }}">
+                        </div>
+
+                        <!-- Status Field -->
+                        <div class="col-md-6">
+                            <label for="status" class="form-label">Status</label>
+                            <select id="status" name="status" class="form-control">
+                                {% for key, value in form.status.field.choices %}
+                                    <option value="{{ key }}" {% if form.status.value == key %}selected{% endif %}>{{ value }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+
+                        <!-- Description Field -->
+                        <div class="col-md-12">
+                            <label for="description" class="form-label">Description</label>
+                            <textarea id="description" name="description" class="form-control" rows="4">{{ form.description.value }}</textarea>
+                        </div>
+
+                        <div class="col-md-12 text-end">
+                            <button type="submit" class="btn btn-success">Save Task</button>
+                            <a href="{% url 'task_list' %}" class="btn btn-secondary">Cancel</a>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- User's Tasks for the Current Date -->
+                <div class="col-md-12 mt-5">
+                    <h3 class="text-center">Tasks Created Today</h3>
+                    <table class="table table-bordered table-hover">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Description</th>
+                                <th>Status</th>
+                                <th>Source</th>
+                                <th>Incident</th>
+                                <th>Support Category</th>
+                                <th>Office Name</th>
+                                <th>Task Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for task in today_tasks %}
+                            <tr>
+                                <td>{{ forloop.counter }}</td>
+                                <td>{{ task.description }}</td>
+                                <td>{{ task.status }}</td>
+                                <td>{{ task.source.name }}</td>
+                                <td>{{ task.incident.name }}</td>
+                                <td>{{ task.support_category.name }}</td>
+                                <td>{{ task.office_name }}</td>
+                                <td>{{ task.task_date|date:"Y-m-d" }}</td>
+                                <td>
+                                    <a href="{% url 'edit_task' task.id %}" class="btn btn-warning btn-sm">Edit</a>
+                                    <a href="{% url 'delete_task' task.id %}" class="btn btn-danger btn-sm">Delete</a>
+                                </td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="9" class="text-center">No tasks created today.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'js/dashboard.js' %}"></script>
+    <script>
+        // Display the current date in the top-right corner
+        document.getElementById('current-date').textContent = new Date().toLocaleDateString();
+    </script>
+</body>
+</html>

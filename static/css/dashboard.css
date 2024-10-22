@@ -1,0 +1,89 @@
+/* Sidebar Styling */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 240px;  /* Adjust the width as per your preference */
+    background-color: #f8f9fa;
+    padding-top: 20px;
+    z-index: 1000;
+    border-right: 1px solid #ddd;
+    overflow-y: auto; /* Allows the sidebar to be scrollable if content exceeds */
+}
+
+.sidebar .nav-link {
+    font-size: 16px;
+    padding: 15px;
+    color: #333;
+    font-weight: 500;
+}
+
+.sidebar .nav-link:hover {
+    background-color: #e9ecef;
+    color: #007bff;
+}
+
+.sidebar .nav-link.text-danger {
+    color: #dc3545;
+}
+
+.sidebar .nav-link.text-danger:hover {
+    background-color: #f8d7da;
+}
+
+.sidebar img {
+    border: 2px solid #ddd;
+    border-radius: 50%;
+}
+
+.sidebar h6 {
+    font-weight: bold;
+    color: #333;
+}
+
+/* Main Content Area */
+.container-fluid {
+    margin-left: 240px;  /* Adjust to match sidebar width */
+    padding: 20px;
+    min-height: 100vh;  /* Ensure container takes full height of viewport */
+    box-sizing: border-box;
+    overflow-x: hidden; /* Prevents horizontal scrolling */
+}
+
+/* Pie Chart Styling */
+canvas {
+    display: block;
+    margin: 0 auto;
+    max-width: 100%;
+    max-height: 400px;
+}
+
+/* Header Date Styling */
+.date-text {
+    font-size: 1.2em;
+    font-weight: 600;
+    color: #6c757d;
+}
+
+/* Hover tooltip customization */
+.chartjs-tooltip {
+    background-color: #fff;
+    border-radius: 4px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 8px;
+    font-size: 14px;
+    color: #333;
+}
+
+/* General Page Layout */
+h5 {
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+p {
+    font-size: 1.1em;
+    font-weight: bold;
+}
+

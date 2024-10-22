@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Incident List</title>
+</head>
+<body>
+    <h1>Incident List</h1>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Add Incident</button>
+    </form>
+    
+    <ul>
+        {% for incident in incidents %}
+            <li>{{ incident.name }} - 
+                <a href="{% url 'edit_incident' incident.id %}">Edit</a> - 
+                <a href="{% url 'delete_incident' incident.id %}">Delete</a>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

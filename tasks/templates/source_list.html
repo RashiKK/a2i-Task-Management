@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Source List</title>
+</head>
+<body>
+    <h1>Source List</h1>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Add Source</button>
+    </form>
+    
+    <ul>
+        {% for source in sources %}
+            <li>{{ source.name }} - 
+                <a href="{% url 'edit_source' source.id %}">Edit</a> - 
+                <a href="{% url 'delete_source' source.id %}">Delete</a>
+            </li>
+        {% endfor %}
+    </ul>
+</body>
+</html>

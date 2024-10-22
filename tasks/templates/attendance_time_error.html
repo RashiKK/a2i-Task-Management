@@ -1,0 +1,19 @@
+<!-- attendance_time_error.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance Error</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="alert alert-danger">
+            <h4>Attendance Time Error</h4>
+            <p>You can only submit your attendance between 9 AM and 5 PM. Please try again within that time frame.</p>
+        </div>
+        <a href="{% url 'admin_dashboard' %}" class="btn btn-primary">Back to Dashboard</a>
+    </div>
+</body>
+</html>

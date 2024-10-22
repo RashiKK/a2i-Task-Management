@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<!-- saved from url=(0038)http://127.0.0.1:8000/tasks/tasks/add/ -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Task</title>
+    <link href="./add task issue_files/bootstrap.min.css" rel="stylesheet">
+    <style>
+        body {
+            display: flex;
+        }
+        .sidebar {
+            width: 200px;
+            background-color: #f8f9fa;
+            padding: 20px;
+            position: fixed;
+            height: 100vh;
+        }
+        .content {
+            margin-left: 220px;
+            padding: 20px;
+            width: 100%;
+        }
+    </style>
+</head>
+<body data-new-gr-c-s-check-loaded="14.1195.0" data-gr-ext-installed="">
+    <!-- Sidebar -->
+    <div class="sidebar">
+        <div class="sidebar">
+    <ul class="nav flex-column">
+        <li class="nav-item">
+            <a class="nav-link" href="http://127.0.0.1:8000/dashboard/">Dashboard</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="http://127.0.0.1:8000/tasks/tasks/">Task List</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" href="http://127.0.0.1:8000/tasks/tasks/add/">Add Task</a>
+        </li>
+        <!-- Add more links here -->
+    </ul>
+</div>
+
+    </div>
+
+    <!-- Main Content -->
+    <div class="content">
+        
+    <div class="container mt-5">
+        <h1 class="text-center">Add Task</h1>
+        <form method="post" enctype="multipart/form-data">
+            <input type="hidden" name="csrfmiddlewaretoken" value="TYoIhrIOUcrYUjKoQx0nHzkNfqgdMckmkXJeP5g2GgEA0nFPA0jEiovl0nWYWuE6">
+            <div class="form-group">
+                <label for="source">Source</label>
+                <select name="source" class="form-control" required="" id="id_source">
+  <option value="" selected="">---------</option>
+
+  <option value="Phone Call">Phone Call</option>
+
+  <option value="Personal Email">Personal Email</option>
+
+  <option value="OTRS">OTRS</option>
+
+  <option value="SMS">SMS</option>
+
+  <option value="One 2 One">One 2 One</option>
+
+  <option value="Training">Training</option>
+
+  <option value="i-Top">i-Top</option>
+
+  <option value="AnyDesk">AnyDesk</option>
+
+  <option value="WhatsApp">WhatsApp</option>
+
+  <option value="Soical Platforms">Social Platforms</option>
+
+  <option value="Productivity / Creativity">Productivity / Creativity</option>
+
+  <option value="Team Work">Team Work</option>
+
+  <option value="Personal">Personal</option>
+
+  <option value="Meeting">Meeting</option>
+
+  <option value="Nothi System">Nothi System</option>
+
+  <option value="Self Initiative">Self Initiative</option>
+
+  <option value="Super Admin">Super Admin</option>
+
+  <option value="Others">Others</option>
+
+  <option value="All">All</option>
+
+</select>
+            </div>
+            <div class="form-group">
+                <label for="support_category">Support Category</label>
+                <select name="support_category" class="form-control" required="" id="id_support_category">
+  <option value="" selected="">---------</option>
+
+  <option value="User Management">User Management</option>
+
+  <option value="Organogram Management">Organogram Management</option>
+
+  <option value="Training Management">Training Management</option>
+
+  <option value="Incident Management">Incident Management</option>
+
+  <option value="Knowledge Sharing">Knowledge Sharing</option>
+
+  <option value="System Management">System Management</option>
+
+  <option value="Doc/Exl/Sheet Management">Doc/Exl/Sheet Management</option>
+
+  <option value="Productivity / Creativity">Productivity / Creativity</option>
+
+  <option value="Nothi / Note / File Management">Nothi / Note / File Management</option>
+
+  <option value="Team Management">Team Management</option>
+
+  <option value="Tech / Vendor Management">Tech / Vendor Management</option>
+
+  <option value="Migration Management">Migration Management</option>
+
+  <option value="myGov Management">myGov Management</option>
+
+  <option value="Mobile Application">Mobile Application</option>
+
+  <option value="Implementation">Implementation</option>
+
+  <option value="Query Management">Query Management</option>
+
+  <option value="Reporting">Reporting</option>
+
+  <option value="System Testing">System Testing</option>
+
+  <option value="Capacity Development">Capacity Development</option>
+
+  <option value="Tutorial Management">Tutorial Management</option>
+
+  <option value="Others">Others</option>
+
+  <option value="Office Management">Office Management</option>
+
+  <option value="Logistics / Apparatus Management">Logistics / Apparatus Management</option>
+
+  <option value="Request Management">Request Management</option>
+
+  <option value="All">All</option>
+
+</select>
+            </div>
+            <div class="form-group">
+                <label for="incident">Incident</label>
+                <select name="incident" class="form-control" required="" id="id_incident">
+  <option value="" selected="">---------</option>
+
+  <option value="Potrojari">Potrojari</option>
+
+  <option value="Slowness">Slowness</option>
+
+  <option value="Note Pending">Note Pending</option>
+
+  <option value="Synchronize">Synchronize</option>
+
+  <option value="Template">Template</option>
+
+  <option value="Password">Password</option>
+
+  <option value="User Information">User Information</option>
+
+  <option value="OTP">OTP</option>
+
+  <option value="PDF Generation Error">PDF Generation Error</option>
+
+  <option value="Dak Upload">Dak Upload</option>
+
+  <option value="Office/Branch Information Correction">Office/Branch Information Correction</option>
+
+  <option value="Dak Forward">Dak Forward</option>
+
+  <option value="Nothi Permission">Nothi Permission</option>
+
+  <option value="Nothi Information Correction">Nothi Information Correction</option>
+
+  <option value="Archive">Archive</option>
+
+  <option value="Nothi Forward">Nothi Forward</option>
+
+  <option value="Dashboard">Dashboard</option>
+
+  <option value="Heading Correction">Heading Correction</option>
+
+  <option value="Substitute">Substitute</option>
+
+  <option value="Signature">Signature</option>
+
+  <option value="Doptor">Doptor</option>
+
+  <option value="Designation Align">Designation Align</option>
+
+  <option value="User Assign">User Assign</option>
+
+  <option value="User Release">User Release</option>
+
+  <option value="Dak Not Found">Dak Not Found</option>
+
+  <option value="Nothi Not Found">Nothi Not Found</option>
+
+  <option value="PDF Blank">PDF Blank</option>
+
+  <option value="Others">Others</option>
+
+</select>
+            </div>
+            <div class="form-group">
+                <label for="status">Status</label>
+                <select name="status" class="form-control" required="" id="id_status">
+  <option value="" selected="">---------</option>
+
+  <option value="Dependency">Dependency</option>
+
+  <option value="Pending">Pending</option>
+
+  <option value="Done">Done</option>
+
+  <option value="Working">Working</option>
+
+  <option value="i-Top">i-Top</option>
+
+  <option value="Others">Others</option>
+
+</select>
+            </div>
+            <div class="form-group">
+                <label for="id_office_name">Office name:</label><input type="text" name="office_name" class="form-control" maxlength="255" required="" id="id_office_name">
+            </div>
+            <div class="form-group">
+                <label for="id_description">Description:</label><textarea name="description" cols="40" rows="10" class="form-control" required="" id="id_description"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="attachments">Attachments (PDF/Word):</label>
+                
+            </div>
+            <button type="submit" class="btn btn-primary">Save Task</button>
+        </form>
+    </div>
+
+    </div>
+
+    <script src="./add task issue_files/bootstrap.bundle.min.js.download"></script>
+
+
+</body><grammarly-desktop-integration data-grammarly-shadow-root="true"><template shadowrootmode="open"><style>
+      div.grammarly-desktop-integration {
+        position: absolute;
+        width: 1px;
+        height: 1px;
+        padding: 0;
+        margin: -1px;
+        overflow: hidden;
+        clip: rect(0, 0, 0, 0);
+        white-space: nowrap;
+        border: 0;
+        -moz-user-select: none;
+        -webkit-user-select: none;
+        -ms-user-select:none;
+        user-select:none;
+      }
+
+      div.grammarly-desktop-integration:before {
+        content: attr(data-content);
+      }
+    </style><div aria-label="grammarly-integration" role="group" tabindex="-1" class="grammarly-desktop-integration" data-content="{&quot;mode&quot;:&quot;full&quot;,&quot;isActive&quot;:true,&quot;isUserDisabled&quot;:false}"></div></template></grammarly-desktop-integration></html>
